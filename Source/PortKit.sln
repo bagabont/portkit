@@ -1,0 +1,59 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PortKit.MVVM", "PortKit.MVVM\PortKit.MVVM.csproj", "{82178420-862F-4F81-AC02-C88A8828E1CC}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PortKit.MVVM.UnitTests", "PortKit.MVVM.UnitTests\PortKit.MVVM.UnitTests.csproj", "{87E2443C-AB27-4B6E-90E4-2B05248696F8}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PortKit.Extensions", "PortKit.Extensions\PortKit.Extensions.csproj", "{8BC9D20E-F488-46E3-A94E-2BC375037DF9}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PortKit.Navigation", "PortKit.Navigation\PortKit.Navigation.csproj", "{0AA6E6C5-F9C3-4DB3-8946-B69DD5C14738}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PortKit.Extensions.UnitTests", "PortKit.Extensions.UnitTests\PortKit.Extensions.UnitTests.csproj", "{3AA752CC-F915-4D56-BB37-944802DA0D76}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PortKit.Bindings", "PortKit.Bindings\PortKit.Bindings.csproj", "{53D6E922-5791-419F-8AAE-F633CF0C5727}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PortKit.Bindings.UnitTests", "PortKit.Bindings.UnitTests\PortKit.Bindings.UnitTests.csproj", "{B0A59659-EBEC-41F4-B082-F63D412673A8}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "UnitTests", "UnitTests", "{E3D0BB28-A703-4C35-8330-E2014A1C110E}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{82178420-862F-4F81-AC02-C88A8828E1CC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{82178420-862F-4F81-AC02-C88A8828E1CC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{82178420-862F-4F81-AC02-C88A8828E1CC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{82178420-862F-4F81-AC02-C88A8828E1CC}.Release|Any CPU.Build.0 = Release|Any CPU
+		{87E2443C-AB27-4B6E-90E4-2B05248696F8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{87E2443C-AB27-4B6E-90E4-2B05248696F8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{87E2443C-AB27-4B6E-90E4-2B05248696F8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{87E2443C-AB27-4B6E-90E4-2B05248696F8}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8BC9D20E-F488-46E3-A94E-2BC375037DF9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8BC9D20E-F488-46E3-A94E-2BC375037DF9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8BC9D20E-F488-46E3-A94E-2BC375037DF9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8BC9D20E-F488-46E3-A94E-2BC375037DF9}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0AA6E6C5-F9C3-4DB3-8946-B69DD5C14738}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0AA6E6C5-F9C3-4DB3-8946-B69DD5C14738}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0AA6E6C5-F9C3-4DB3-8946-B69DD5C14738}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0AA6E6C5-F9C3-4DB3-8946-B69DD5C14738}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3AA752CC-F915-4D56-BB37-944802DA0D76}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3AA752CC-F915-4D56-BB37-944802DA0D76}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3AA752CC-F915-4D56-BB37-944802DA0D76}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3AA752CC-F915-4D56-BB37-944802DA0D76}.Release|Any CPU.Build.0 = Release|Any CPU
+		{53D6E922-5791-419F-8AAE-F633CF0C5727}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{53D6E922-5791-419F-8AAE-F633CF0C5727}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{53D6E922-5791-419F-8AAE-F633CF0C5727}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{53D6E922-5791-419F-8AAE-F633CF0C5727}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B0A59659-EBEC-41F4-B082-F63D412673A8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B0A59659-EBEC-41F4-B082-F63D412673A8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B0A59659-EBEC-41F4-B082-F63D412673A8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B0A59659-EBEC-41F4-B082-F63D412673A8}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{B0A59659-EBEC-41F4-B082-F63D412673A8} = {E3D0BB28-A703-4C35-8330-E2014A1C110E}
+		{3AA752CC-F915-4D56-BB37-944802DA0D76} = {E3D0BB28-A703-4C35-8330-E2014A1C110E}
+		{87E2443C-AB27-4B6E-90E4-2B05248696F8} = {E3D0BB28-A703-4C35-8330-E2014A1C110E}
+	EndGlobalSection
+EndGlobal
