@@ -57,11 +57,12 @@ namespace PortKit.Bindings.UnitTests
         [Test]
         public void OneWayBinding_DifferentPropertyTypesWithConverter_UpdatesTargetProperty()
         {
+            const string expectedDescription = "Items count=1";
             var binding = this.Set(
                 () => _sourceItem.SubItems,
                 () => _targetItem.Description,
                 BindingMode.OneWay,
-                items => items.Count.ToString()
+                items => "Items count=" + items?.Count
             );
 
             using (binding)
@@ -69,7 +70,7 @@ namespace PortKit.Bindings.UnitTests
                 _sourceItem.SubItems = new ObservableCollection<ItemViewModel>();
                 _sourceItem.SubItems.Add(new ItemViewModel());
 
-                _targetItem.Description.Should().Be(_sourceItem.SubItems.Count.ToString());
+                _targetItem.Description.Should().Be(expectedDescription);
             }
         }
 
