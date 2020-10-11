@@ -18,8 +18,8 @@ jobs:
       with:
         dotnet-version: 3.1.301
     - name: Install dependencies
-      run: dotnet restore
+      run: dotnet restore Source/PortKit.sln
     - name: Build
       run: dotnet build Source/PortKit.sln --configuration Release --no-restore
     - name: Test
-      run: dotnet test --no-restore --verbosity normal
+      run: dotnet test  Source/PortKit.sln --no-restore --verbosity normal
