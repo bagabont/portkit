@@ -8,10 +8,10 @@ namespace PortKit.Extensions
 {
     public static class ExpressionExtensions
     {
-        private const BindingFlags MemberFlags = BindingFlags.Default |
-                                                 BindingFlags.Instance |
-                                                 BindingFlags.NonPublic |
-                                                 BindingFlags.Public;
+        private const BindingFlags MemberAccessFlags = BindingFlags.Default |
+                                                       BindingFlags.Instance |
+                                                       BindingFlags.NonPublic |
+                                                       BindingFlags.Public;
 
         private sealed class Visitor : ExpressionVisitor
         {
@@ -69,8 +69,8 @@ namespace PortKit.Extensions
 
                 found = member.MemberType switch
                 {
-                    MemberTypes.Field => instanceType.GetField(member.Name, MemberFlags) != null,
-                    MemberTypes.Property => instanceType.GetProperty(member.Name, MemberFlags) != null,
+                    MemberTypes.Field => instanceType.GetField(member.Name, MemberAccessFlags) != null,
+                    MemberTypes.Property => instanceType.GetProperty(member.Name, MemberAccessFlags) != null,
                     _ => throw new ArgumentOutOfRangeException()
                 };
 
