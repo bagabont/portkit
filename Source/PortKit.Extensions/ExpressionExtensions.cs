@@ -6,7 +6,7 @@ using System.Reflection;
 
 namespace PortKit.Extensions
 {
-    public static class MemberUtils
+    public static class ExpressionExtensions
     {
         private const BindingFlags MemberFlags = BindingFlags.Default |
                                                  BindingFlags.Instance |
@@ -54,7 +54,7 @@ namespace PortKit.Extensions
             return rootObjectConstantExpression.Value;
         }
 
-        public static Stack<MemberInfo> GetMembers<T>(Expression<Func<T>> expression, object instance)
+        public static Stack<MemberInfo> GetMembers<T>(this Expression<Func<T>> expression, object instance)
         {
             var visitor = new Visitor();
 
@@ -81,57 +81,6 @@ namespace PortKit.Extensions
             }
 
             return visitor.Path;
-        }
-
-        public static bool TryGetValue(object instance, MemberInfo memberInfo, out object value)
-        {
-            value = default;
-            if (instance == null)
-            {
-                return false;
-            }
-
-            var instanceType = instance.GetType();
-
-            switch (memberInfo.MemberType)
-            {
-                case MemberTypes.Field:
-                    var field = instanceType.GetField(memberInfo.Name, MemberFlags);
-                    if (field == null)
-                    {
-                        return false;
-                    }
-
-                    value = field.GetValue(instance);
-                    return true;
-
-                case MemberTypes.Property:
-                    var property = instanceType.GetProperty(memberInfo.Name, MemberFlags);
-                    if (property == null)
-                    {
-                        return false;
-                    }
-
-                    value = property.GetValue(instance);
-                    return true;
-
-                default:
-                    throw new ArgumentOutOfRangeException(nameof(memberInfo));
-            }
-        }
-
-        public static void SetValue(object instance, MemberInfo memberInfo, object value)
-        {
-            switch (memberInfo)
-            {
-                case FieldInfo fieldInfo:
-                    fieldInfo.SetValue(instance, value);
-                    break;
-
-                case PropertyInfo propertyInfo:
-                    propertyInfo.SetValue(instance, value);
-                    break;
-            }
         }
     }
 }

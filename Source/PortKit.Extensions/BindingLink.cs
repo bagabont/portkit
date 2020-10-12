@@ -12,6 +12,11 @@ namespace PortKit.Extensions
     [DebuggerDisplay("{_member.Name}")]
     public sealed class BindingLink : IDisposable
     {
+        private const BindingFlags MemberAccessFlags = BindingFlags.Default |
+                                                       BindingFlags.Instance |
+                                                       BindingFlags.NonPublic |
+                                                       BindingFlags.Public;
+
         private readonly MemberInfo _member;
         private readonly Action _callback;
         private object _instance;
@@ -30,7 +35,7 @@ namespace PortKit.Extensions
             object instance,
             Action callback)
         {
-            var members = MemberUtils.GetMembers(expression, instance);
+            var members = expression.GetMembers(instance);
             if (!members.Any())
             {
                 return Array.Empty<BindingLink>();
@@ -73,11 +78,56 @@ namespace PortKit.Extensions
             EvaluateNext();
         }
 
-        public bool TryGetValue(out object value) =>
-            MemberUtils.TryGetValue(_instance, _member, out value);
+        public bool TryGetValue(out object value)
+        {
+            value = default;
+            if (_instance == null)
+            {
+                return false;
+            }
 
-        public void SetValue(object value) =>
-            MemberUtils.SetValue(_instance, _member, value);
+            var instanceType = _instance.GetType();
+
+            switch (_member.MemberType)
+            {
+                case MemberTypes.Field:
+                    var field = instanceType.GetField(_member.Name, MemberAccessFlags);
+                    if (field == null)
+                    {
+                        return false;
+                    }
+
+                    value = field.GetValue(_instance);
+                    return true;
+
+                case MemberTypes.Property:
+                    var property = instanceType.GetProperty(_member.Name, MemberAccessFlags);
+                    if (property == null)
+                    {
+                        return false;
+                    }
+
+                    value = property.GetValue(_instance);
+                    return true;
+
+                default:
+                    throw new ArgumentOutOfRangeException(nameof(_member));
+            }
+        }
+
+        public void SetValue(object value)
+        {
+            switch (_member)
+            {
+                case FieldInfo fieldInfo:
+                    fieldInfo.SetValue(_instance, value);
+                    break;
+
+                case PropertyInfo propertyInfo:
+                    propertyInfo.SetValue(_instance, value);
+                    break;
+            }
+        }
 
         private void EvaluateNext()
         {
