@@ -16,13 +16,12 @@ namespace PortKit.MVVM
     {
         private readonly IDictionary<TKey, TValue> _dictionary;
 
-        /// <summary>
-        /// Event raised when the collection changes.
-        /// </summary>
+        /// <inheritdoc cref="INotifyCollectionChanged.CollectionChanged"/>>
         public event NotifyCollectionChangedEventHandler CollectionChanged;
 
         /// <summary>
-        /// Initializes an instance of the class using another dictionary as the key/value store.
+        /// Initializes an instance of <see cref="BindableDictionary{TKey,TValue}"/> using
+        /// another dictionary as the key/value store.
         /// </summary>
         /// <param name="dictionary">Storage instance of <see cref="IDictionary{TKey,TValue}"/></param>
         public BindableDictionary(IDictionary<TKey, TValue> dictionary)

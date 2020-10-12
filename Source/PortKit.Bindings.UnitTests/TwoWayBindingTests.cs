@@ -1,5 +1,6 @@
 using FluentAssertions;
 using NUnit.Framework;
+using PortKit.Bindings.UnitTests.Data;
 
 namespace PortKit.Bindings.UnitTests
 {

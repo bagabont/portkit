@@ -6,7 +6,7 @@ using NUnit.Framework;
 namespace PortKit.Extensions.UnitTests
 {
     [TestFixture]
-    public class DisposableActionTests
+    internal sealed class DisposableActionTests
     {
         [Test]
         public void SingleCall_Dispose_ActionIsInvoked()

@@ -2,7 +2,7 @@ using System.Collections.ObjectModel;
 using System.Windows.Input;
 using PortKit.MVVM;
 
-namespace PortKit.Bindings.UnitTests
+namespace PortKit.Bindings.UnitTests.Data
 {
     internal sealed class ItemViewModel : Bindable
     {

@@ -1,6 +1,7 @@
 using System.Collections.ObjectModel;
 using FluentAssertions;
 using NUnit.Framework;
+using PortKit.Bindings.UnitTests.Data;
 using PortKit.MVVM;
 
 namespace PortKit.Bindings.UnitTests

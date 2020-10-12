@@ -1,8 +1,8 @@
 using System;
 
-namespace PortKit.Bindings.UnitTests
+namespace PortKit.Bindings.UnitTests.Data
 {
-    public sealed class StubEventArgs : EventArgs
+    internal sealed class StubEventArgs : EventArgs
     {
         public object Data { get; }
 

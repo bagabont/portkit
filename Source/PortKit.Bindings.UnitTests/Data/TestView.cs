@@ -1,7 +1,7 @@
 using System;
 using System.ComponentModel;
 
-namespace PortKit.Bindings.UnitTests
+namespace PortKit.Bindings.UnitTests.Data
 {
     internal sealed class TestView
     {

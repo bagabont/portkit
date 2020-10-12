@@ -3,11 +3,13 @@ using System.ComponentModel;
 using FluentAssertions;
 using NUnit.Framework;
 using PortKit.Bindings.Extensions;
+using PortKit.Bindings.UnitTests.Data;
 using PortKit.MVVM;
 
 namespace PortKit.Bindings.UnitTests
 {
-    public sealed class SetCommandExtensionTests
+    [TestFixture]
+    internal sealed class SetCommandExtensionTests
     {
         [Test]
         public void SetCommandHandlers_NoArgsEventRaisedWithEnabledCommand_ExecutesCommand()

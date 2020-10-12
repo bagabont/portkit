@@ -9,12 +9,12 @@ using NUnit.Framework;
 namespace PortKit.MVVM.UnitTests
 {
     [TestFixture]
-    public sealed class BindableCollectionTests
+    internal sealed class BindableCollectionTests
     {
         [Test]
         public void BindableCollection_AddRange_ItemsAreAdded()
         {
-            var expected = new List<object> { 1, 2, null, new object() };
+            var expected = new List<object> {1, 2, null, new object()};
             var collection = new BindableCollection<object>();
 
             collection.AddRange(expected);
@@ -25,7 +25,7 @@ namespace PortKit.MVVM.UnitTests
         [Test]
         public void BindableCollection_AddRange_RaisesResetCollectionChanged()
         {
-            var range = new List<object> { 1, 2, 3 };
+            var range = new List<object> {1, 2, 3};
             var collection = new BindableCollection<object>();
 
             using var monitor = collection.Monitor();
@@ -41,7 +41,7 @@ namespace PortKit.MVVM.UnitTests
         [Test]
         public void BindableCollection_RemoveRange_RaisesResetCollectionChanged()
         {
-            var collection = new BindableCollection<int> { 1, 2, 3, 4, 5 };
+            var collection = new BindableCollection<int> {1, 2, 3, 4, 5};
             var range = collection.Skip(3).ToArray();
 
             using var monitor = collection.Monitor();
@@ -56,8 +56,8 @@ namespace PortKit.MVVM.UnitTests
         [Test]
         public void BindableCollection_RemoveRange_ItemsAreRemoved()
         {
-            var expected = new List<int> { 1, 2, 3 };
-            var collection = new BindableCollection<int> { 1, 2, 3, 4, 5 };
+            var expected = new List<int> {1, 2, 3};
+            var collection = new BindableCollection<int> {1, 2, 3, 4, 5};
             var range = collection.Skip(3).ToArray();
 
             collection.RemoveRange(range);
@@ -68,8 +68,8 @@ namespace PortKit.MVVM.UnitTests
         [Test]
         public void BindableCollection_ResetWithItems_CollectionIsResetToNewItems()
         {
-            var expected = new List<object> { 3, 2, 1 };
-            var collection = new BindableCollection<object> { 1, 2, 3 };
+            var expected = new List<object> {3, 2, 1};
+            var collection = new BindableCollection<object> {1, 2, 3};
 
             using (var monitor = collection.Monitor())
             {
@@ -86,8 +86,8 @@ namespace PortKit.MVVM.UnitTests
         [Test]
         public void BindableCollection_Execute_ItemsAreUpdated()
         {
-            var expected = new List<int> { 2, 3, 4 };
-            var collection = new BindableCollection<int> { 1, 2, 3 };
+            var expected = new List<int> {2, 3, 4};
+            var collection = new BindableCollection<int> {1, 2, 3};
 
             using (var monitor = collection.Monitor())
             {
