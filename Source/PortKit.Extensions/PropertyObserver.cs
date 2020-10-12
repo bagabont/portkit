@@ -10,7 +10,7 @@ using System.Reflection;
 namespace PortKit.Extensions
 {
     [DebuggerDisplay("{_member.Name}")]
-    public sealed class BindingLink : IDisposable
+    public sealed class PropertyObserver : IDisposable
     {
         private const BindingFlags MemberAccessFlags = BindingFlags.Default |
                                                        BindingFlags.Instance |
@@ -22,31 +22,28 @@ namespace PortKit.Extensions
         private object _instance;
         private bool _subscribe;
 
-        public BindingLink Next { get; set; }
+        public PropertyObserver Next { get; set; }
 
-        public BindingLink(MemberInfo member, Action callback)
+        public PropertyObserver(MemberInfo member, Action callback)
         {
             _member = member;
             _callback = callback;
         }
 
-        public static BindingLink[] FromExpression<TProperty>(
-            Expression<Func<TProperty>> expression,
-            object instance,
-            Action callback)
+        public static PropertyObserver[] FromExpression<T>(Expression<Func<T>> expression, object instance, Action callback)
         {
             var members = expression.GetMembers(instance);
             if (!members.Any())
             {
-                return Array.Empty<BindingLink>();
+                return Array.Empty<PropertyObserver>();
             }
 
-            var current = new BindingLink(members.Pop(), callback);
-            var list = new List<BindingLink> {current};
+            var current = new PropertyObserver(members.Pop(), callback);
+            var list = new List<PropertyObserver> {current};
 
             foreach (var member in members)
             {
-                current.Next = new BindingLink(member, callback);
+                current.Next = new PropertyObserver(member, callback);
                 current = current.Next;
                 list.Add(current);
             }
@@ -60,7 +57,7 @@ namespace PortKit.Extensions
             Next?.Dispose();
         }
 
-        public BindingLink Bind(object instance)
+        public PropertyObserver Bind(object instance)
         {
             Unsubscribe();
             _instance = instance;

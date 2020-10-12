@@ -68,7 +68,7 @@ namespace PortKit.Bindings.Extensions
                 }
             }
 
-            var handler = (Delegate) (object) CreateDelegate<TDelegate, TEventArgs>(Handler);
+            var handler = (Delegate)(object)CreateDelegate<TDelegate, TEventArgs>(Handler);
 
             return element.AttachEventHandler(eventName, handler);
         }
@@ -141,7 +141,7 @@ namespace PortKit.Bindings.Extensions
             var methodInfo = handleType.GetMethod(nameof(Action.Invoke)) ??
                              throw new MissingMethodException(handleType.Name, nameof(Action.Invoke));
 
-            return (TDelegate) (object) Delegate.CreateDelegate(typeof(TDelegate), handle, methodInfo);
+            return (TDelegate)(object)Delegate.CreateDelegate(typeof(TDelegate), handle, methodInfo);
         }
     }
 }

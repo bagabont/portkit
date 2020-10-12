@@ -7,8 +7,8 @@ namespace PortKit.Bindings
 {
     public sealed class Binding<TSource, TTarget> : IDisposable
     {
-        private readonly BindingLink _sourceLink;
-        private readonly BindingLink _targetLink;
+        private readonly PropertyObserver _sourceObserver;
+        private readonly PropertyObserver _targetObserver;
         private readonly Func<TSource, TTarget> _convert;
         private readonly Func<TTarget, TSource> _convertBack;
         private Action<TSource> _sourceChangedCallback;
@@ -24,19 +24,19 @@ namespace PortKit.Bindings
             Func<TSource, TTarget> convert = default,
             Func<TTarget, TSource> convertBack = default)
         {
-            _convert = convert ?? (x => (TTarget) Convert.ChangeType(x, typeof(TTarget)));
-            _convertBack = convertBack ?? (x => (TSource) Convert.ChangeType(x, typeof(TSource)));
+            _convert = convert ?? (x => (TTarget)Convert.ChangeType(x, typeof(TTarget)));
+            _convertBack = convertBack ?? (x => (TSource)Convert.ChangeType(x, typeof(TSource)));
 
-            var sourceNodes = BindingLink.FromExpression(sourceExpression, source, UpdateTargetValue);
-            var targetNodes = BindingLink.FromExpression(targetExpression, target ?? source, UpdateSourceValue);
+            var sourceObservers = PropertyObserver.FromExpression(sourceExpression, source, UpdateTargetValue);
+            var targetObservers = PropertyObserver.FromExpression(targetExpression, target ?? source, UpdateSourceValue);
 
-            _sourceLink = sourceNodes.Last();
-            _targetLink = targetNodes.LastOrDefault();
+            _sourceObserver = sourceObservers.Last();
+            _targetObserver = targetObservers.LastOrDefault();
 
-            var sourceRoot = sourceNodes.First();
+            var sourceRoot = sourceObservers.First();
             sourceRoot.Bind(source);
 
-            var targetRoot = targetNodes.FirstOrDefault();
+            var targetRoot = targetObservers.FirstOrDefault();
             targetRoot?.Bind(target ?? source);
 
             Evaluate(mode, sourceRoot, targetRoot);
@@ -44,8 +44,8 @@ namespace PortKit.Bindings
 
         public void Dispose()
         {
-            _sourceLink?.Dispose();
-            _targetLink?.Dispose();
+            _sourceObserver?.Dispose();
+            _targetObserver?.Dispose();
         }
 
         public Binding<TSource, TTarget> WithFallback(TSource fallbackValue)
@@ -70,7 +70,7 @@ namespace PortKit.Bindings
             return this;
         }
 
-        private void Evaluate(BindingMode mode, BindingLink sourceRoot, BindingLink targetRoot)
+        private void Evaluate(BindingMode mode, PropertyObserver sourceRoot, PropertyObserver targetRoot)
         {
             switch (mode)
             {
@@ -116,24 +116,24 @@ namespace PortKit.Bindings
 
         private void UpdateTargetValue()
         {
-            if (!_sourceLink.TryGetValue(out var value))
+            if (!_sourceObserver.TryGetValue(out var value))
             {
                 value = _fallbackValue;
             }
 
-            _targetLink?.SetValue(_convert((TSource) value));
-            _sourceChangedCallback?.Invoke((TSource) value);
+            _targetObserver?.SetValue(_convert((TSource)value));
+            _sourceChangedCallback?.Invoke((TSource)value);
         }
 
         private void UpdateSourceValue()
         {
-            if (!_targetLink.TryGetValue(out var value))
+            if (!_targetObserver.TryGetValue(out var value))
             {
                 return;
             }
 
-            _sourceLink?.SetValue(_convertBack((TTarget) value));
-            _targetChangedCallback?.Invoke((TTarget) value);
+            _sourceObserver?.SetValue(_convertBack((TTarget)value));
+            _targetChangedCallback?.Invoke((TTarget)value);
         }
     }
 }
