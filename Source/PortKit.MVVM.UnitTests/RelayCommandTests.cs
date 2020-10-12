@@ -70,5 +70,18 @@ namespace PortKit.MVVM.UnitTests
 
             monitor.Should().NotRaise(nameof(ICommand.CanExecuteChanged));
         }
+
+        [Test]
+        public void Watch_CollectionChanged_RaisesCanExecuteChanged()
+        {
+            var command = new RelayCommand(() => { });
+            command.Watch(() => Items);
+
+            using var monitor = command.Monitor();
+
+            Items.Add(new object());
+
+            monitor.Should().Raise(nameof(ICommand.CanExecuteChanged));
+        }
     }
 }
