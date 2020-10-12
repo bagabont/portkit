@@ -1,7 +1,7 @@
 using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
+using PortKit.Extensions;
 
 namespace PortKit.Bindings
 {
@@ -24,11 +24,11 @@ namespace PortKit.Bindings
             Func<TSource, TTarget> convert = default,
             Func<TTarget, TSource> convertBack = default)
         {
-            _convert = convert ?? (x => (TTarget)Convert.ChangeType(x, typeof(TTarget)));
-            _convertBack = convertBack ?? (x => (TSource)Convert.ChangeType(x, typeof(TSource)));
+            _convert = convert ?? (x => (TTarget) Convert.ChangeType(x, typeof(TTarget)));
+            _convertBack = convertBack ?? (x => (TSource) Convert.ChangeType(x, typeof(TSource)));
 
-            var sourceNodes = ParseLinks(sourceExpression, source, UpdateTargetValue);
-            var targetNodes = ParseLinks(targetExpression, target ?? source, UpdateSourceValue);
+            var sourceNodes = BindingLink.FromExpression(sourceExpression, source, UpdateTargetValue);
+            var targetNodes = BindingLink.FromExpression(targetExpression, target ?? source, UpdateSourceValue);
 
             _sourceLink = sourceNodes.Last();
             _targetLink = targetNodes.LastOrDefault();
@@ -121,8 +121,8 @@ namespace PortKit.Bindings
                 value = _fallbackValue;
             }
 
-            _targetLink?.SetValue(_convert((TSource)value));
-            _sourceChangedCallback?.Invoke((TSource)value);
+            _targetLink?.SetValue(_convert((TSource) value));
+            _sourceChangedCallback?.Invoke((TSource) value);
         }
 
         private void UpdateSourceValue()
@@ -132,29 +132,8 @@ namespace PortKit.Bindings
                 return;
             }
 
-            _sourceLink?.SetValue(_convertBack((TTarget)value));
-            _targetChangedCallback?.Invoke((TTarget)value);
-        }
-
-        private static BindingLink[] ParseLinks<TProperty>(Expression<Func<TProperty>> expression, object instance, Action callback)
-        {
-            var members = MemberUtils.GetMembers(expression, instance);
-            if (!members.Any())
-            {
-                return Array.Empty<BindingLink>();
-            }
-
-            var current = new BindingLink(members.Pop(), callback);
-            var list = new List<BindingLink> { current };
-
-            foreach (var member in members)
-            {
-                current.Next = new BindingLink(member, callback);
-                current = current.Next;
-                list.Add(current);
-            }
-
-            return list.ToArray();
+            _sourceLink?.SetValue(_convertBack((TTarget) value));
+            _targetChangedCallback?.Invoke((TTarget) value);
         }
     }
 }

@@ -1,4 +1,5 @@
 using System;
+using System.Collections.ObjectModel;
 using System.Windows.Input;
 using FluentAssertions;
 using NUnit.Framework;
@@ -9,6 +10,8 @@ namespace PortKit.MVVM.UnitTests
     internal sealed class RelayCommandTests : Bindable
     {
         private string _name;
+
+        private ObservableCollection<object> Items { get; } = new ObservableCollection<object>();
 
         private string Name
         {
@@ -37,6 +40,32 @@ namespace PortKit.MVVM.UnitTests
             using var monitor = command.Monitor();
 
             command.Unwatch(() => Name);
+            Name = Guid.NewGuid().ToString();
+
+            monitor.Should().NotRaise(nameof(ICommand.CanExecuteChanged));
+        }
+
+        [Test]
+        public void Watch_NestedPropertyChanged_RaisesCanExecuteChanged()
+        {
+            var command = new RelayCommand(() => { });
+            command.Watch(() => Items.Count);
+
+            using var monitor = command.Monitor();
+
+            Items.Add(new object());
+
+            monitor.Should().Raise(nameof(ICommand.CanExecuteChanged));
+        }
+
+        [Test]
+        public void Watch_NonWatchedPropertyChanged_DoesNotRaiseCanExecuteChanged()
+        {
+            var command = new RelayCommand(() => { });
+            command.Watch(() => Items);
+
+            using var monitor = command.Monitor();
+
             Name = Guid.NewGuid().ToString();
 
             monitor.Should().NotRaise(nameof(ICommand.CanExecuteChanged));

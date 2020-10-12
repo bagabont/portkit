@@ -1,13 +1,16 @@
 using System;
+using System.Collections.Generic;
 using System.Collections.Specialized;
 using System.ComponentModel;
 using System.Diagnostics;
+using System.Linq;
+using System.Linq.Expressions;
 using System.Reflection;
 
-namespace PortKit.Bindings
+namespace PortKit.Extensions
 {
     [DebuggerDisplay("{_member.Name}")]
-    internal sealed class BindingLink : IDisposable
+    public sealed class BindingLink : IDisposable
     {
         private readonly MemberInfo _member;
         private readonly Action _callback;
@@ -20,6 +23,30 @@ namespace PortKit.Bindings
         {
             _member = member;
             _callback = callback;
+        }
+
+        public static BindingLink[] FromExpression<TProperty>(
+            Expression<Func<TProperty>> expression,
+            object instance,
+            Action callback)
+        {
+            var members = MemberUtils.GetMembers(expression, instance);
+            if (!members.Any())
+            {
+                return Array.Empty<BindingLink>();
+            }
+
+            var current = new BindingLink(members.Pop(), callback);
+            var list = new List<BindingLink> {current};
+
+            foreach (var member in members)
+            {
+                current.Next = new BindingLink(member, callback);
+                current = current.Next;
+                list.Add(current);
+            }
+
+            return list.ToArray();
         }
 
         public void Dispose()

@@ -1,6 +1,6 @@
 using System;
 using System.Collections.Generic;
-using System.ComponentModel;
+using System.Linq;
 using System.Linq.Expressions;
 using System.Windows.Input;
 using PortKit.Extensions;
@@ -61,19 +61,13 @@ namespace PortKit.MVVM
 
         public RelayCommand<T> Watch<TProperty>(Expression<Func<TProperty>> expression)
         {
-            var (npc, propertyName) = ParseExpression(expression);
+            var caller = expression.GetCaller();
+            var root = BindingLink.FromExpression(expression, caller, RaiseCanExecuteChanged)
+                .First();
 
-            void OnPropertyChanged(object s, PropertyChangedEventArgs e)
-            {
-                if (e.PropertyName == propertyName)
-                {
-                    RaiseCanExecuteChanged();
-                }
-            }
+            root.Bind(caller).Evaluate(true);
 
-            npc.PropertyChanged += OnPropertyChanged;
-            var subscription = new DisposableAction(() => npc.PropertyChanged -= OnPropertyChanged);
-            _subscriptions.Add(expression.ToString(), subscription);
+            _subscriptions.Add(expression.ToString(), new DisposableAction(root.Dispose));
 
             return this;
         }
@@ -90,23 +84,6 @@ namespace PortKit.MVVM
             _subscriptions.Remove(propertyChain);
 
             return this;
-        }
-
-        private static (INotifyPropertyChanged, string) ParseExpression<TProperty>(
-            Expression<Func<TProperty>> expression)
-        {
-            if (!(expression.Body is MemberExpression memberExpression) ||
-                !(memberExpression.Expression is ConstantExpression constantExpression))
-            {
-                throw new NotSupportedException("Expression must be of type ConstantExpression");
-            }
-
-            if (!(constantExpression.Value is INotifyPropertyChanged npc))
-            {
-                throw new InvalidOperationException("Caller does not subscribe INotifyPropertyChanged.");
-            }
-
-            return (npc, memberExpression.Member.Name);
         }
     }
 }

@@ -4,9 +4,9 @@ using System.Linq;
 using System.Linq.Expressions;
 using System.Reflection;
 
-namespace PortKit.Bindings
+namespace PortKit.Extensions
 {
-    internal static class MemberUtils
+    public static class MemberUtils
     {
         private const BindingFlags MemberFlags = BindingFlags.Default |
                                                  BindingFlags.Instance |
@@ -34,7 +34,27 @@ namespace PortKit.Bindings
             }
         }
 
-        public static Stack<MemberInfo> GetMembers<TProperty>(Expression<Func<TProperty>> expression, object instance)
+        public static object GetCaller<T>(this Expression<Func<T>> expression)
+        {
+            if (!(expression.Body is MemberExpression propertyAccessExpression))
+            {
+                return null;
+            }
+
+            while (propertyAccessExpression.Expression is MemberExpression memberExpression)
+            {
+                propertyAccessExpression = memberExpression;
+            }
+
+            if (!(propertyAccessExpression.Expression is ConstantExpression rootObjectConstantExpression))
+            {
+                return null;
+            }
+
+            return rootObjectConstantExpression.Value;
+        }
+
+        public static Stack<MemberInfo> GetMembers<T>(Expression<Func<T>> expression, object instance)
         {
             var visitor = new Visitor();
 
