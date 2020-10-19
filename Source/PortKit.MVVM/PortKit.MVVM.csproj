@@ -4,8 +4,11 @@
         <TargetFramework>netstandard2.0</TargetFramework>
         <LangVersion>8</LangVersion>
         <RootNamespace>PortKit.MVVM</RootNamespace>
+        <PackageId>PortKit.MVVM</PackageId>
+        <Version>0.0.1</Version>
+        <Authors>Momchil Marinov</Authors>
     </PropertyGroup>
-
+    
     <ItemGroup>
         <ProjectReference Include="..\PortKit.Extensions\PortKit.Extensions.csproj" />
     </ItemGroup>
