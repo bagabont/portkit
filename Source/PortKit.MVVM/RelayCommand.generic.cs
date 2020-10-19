@@ -6,6 +6,8 @@ using PortKit.Extensions;
 
 namespace PortKit.MVVM
 {
+    /// <inheritdoc cref="IRelayCommand"/>>
+    /// <typeparam name="TParameter">Type of the command parameter.</typeparam>
     public class RelayCommand<TParameter> : Bindable, IRelayCommand
     {
         public event EventHandler CanExecuteChanged;
