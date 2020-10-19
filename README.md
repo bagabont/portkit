@@ -2,7 +2,8 @@
 
 PortKit.MVVM
 
-![PortKit.MVVM NuGet](https://github.com/bagabont/PortKit/workflows/Publish%20to%20NuGet%20PortKit.MVVM/badge.svg)
+![PortKit.MVVM NuGet](https://github.com/bagabont/PortKit/workflows/PortKit.MVVM%20NuGet/badge.svg)
+
 ```
 PM> Install-Package PortKit.MVVM 
 ```
