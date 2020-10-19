@@ -1,4 +1,4 @@
-name: Publish to NuGet PortKit.MVVM
+name: PortKit.MVVM NuGet
 
 on:
   release:
