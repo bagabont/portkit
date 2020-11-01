@@ -5,7 +5,7 @@ using PortKit.Bindings.UnitTests.Data;
 namespace PortKit.Bindings.UnitTests
 {
     [TestFixture]
-    internal sealed class TwoWayBindingTests
+    internal sealed class BindingTwoWayTests
     {
         private ItemViewModel _sourceItem;
         private ItemViewModel _targetItem;

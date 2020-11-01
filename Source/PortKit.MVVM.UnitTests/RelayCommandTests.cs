@@ -10,6 +10,7 @@ namespace PortKit.MVVM.UnitTests
     internal sealed class RelayCommandTests : Bindable
     {
         private string _name;
+        private ObservableCollection<object> _items = new ObservableCollection<object>();
 
         private ObservableCollection<object> Items { get; } = new ObservableCollection<object>();
 
@@ -72,7 +73,7 @@ namespace PortKit.MVVM.UnitTests
         }
 
         [Test]
-        public void Watch_CollectionChanged_RaisesCanExecuteChanged()
+        public void Watch_PropertyCollectionChanged_RaisesCanExecuteChanged()
         {
             var command = new RelayCommand(() => { });
             command.Watch(() => Items);
@@ -80,6 +81,19 @@ namespace PortKit.MVVM.UnitTests
             using var monitor = command.Monitor();
 
             Items.Add(new object());
+
+            monitor.Should().Raise(nameof(ICommand.CanExecuteChanged));
+        }
+
+        [Test]
+        public void Watch_FieldCollectionChanged_RaisesCanExecuteChanged()
+        {
+            var command = new RelayCommand(() => { });
+            command.Watch(() => _items);
+
+            using var monitor = command.Monitor();
+
+            _items.Add(new object());
 
             monitor.Should().Raise(nameof(ICommand.CanExecuteChanged));
         }

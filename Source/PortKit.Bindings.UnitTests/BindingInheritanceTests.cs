@@ -1,22 +1,20 @@
-using System.Collections.ObjectModel;
 using FluentAssertions;
 using NUnit.Framework;
 using PortKit.Bindings.UnitTests.Data;
-using PortKit.MVVM;
 
 namespace PortKit.Bindings.UnitTests
 {
     [TestFixture]
-    internal sealed class OneWayBindingTests
+    internal class BindingInheritanceTests
     {
-        private ItemViewModel _sourceItem;
-        private ItemViewModel _targetItem;
+        private SubClass _sourceItem;
+        private SuperClass _targetItem;
 
         [SetUp]
         public void SetUp()
         {
-            _sourceItem = new ItemViewModel();
-            _targetItem = new ItemViewModel();
+            _sourceItem = new SubClass();
+            _targetItem = new SuperClass();
         }
 
         [Test]
@@ -56,26 +54,6 @@ namespace PortKit.Bindings.UnitTests
         }
 
         [Test]
-        public void OneWayBinding_DifferentPropertyTypesWithConverter_UpdatesTargetProperty()
-        {
-            const string expectedDescription = "Items count=1";
-            var binding = this.Set(
-                () => _sourceItem.SubItems,
-                () => _targetItem.Description,
-                BindingMode.OneWay,
-                items => "Items count=" + items?.Count
-            );
-
-            using (binding)
-            {
-                _sourceItem.SubItems = new ObservableCollection<ItemViewModel>();
-                _sourceItem.SubItems.Add(new ItemViewModel());
-
-                _targetItem.Description.Should().Be(expectedDescription);
-            }
-        }
-
-        [Test]
         public void OneWayBinding_TargetPropertyUpdated_DoesNotUpdateSource()
         {
             var binding = this.Set(
@@ -92,29 +70,6 @@ namespace PortKit.Bindings.UnitTests
                 _targetItem.Name = "test";
 
                 _sourceItem.Name.Should().Be(expected);
-            }
-        }
-
-        [Test]
-        public void OneWayBinding_PropertyInstanceInExpressionChanges_UpdatesTargetProperty()
-        {
-            _sourceItem.Command = new RelayCommand<ItemViewModel>(item =>
-            {
-                _sourceItem.SubItems ??= new ObservableCollection<ItemViewModel>();
-                _sourceItem.SubItems.Add(item);
-            });
-
-            var binding = this.Set(
-                () => _sourceItem.SubItems.Count,
-                () => _targetItem.Description,
-                BindingMode.OneWay
-            );
-
-            _sourceItem.Command.Execute(new ItemViewModel());
-
-            using (binding)
-            {
-                _targetItem.Description.Should().Be(_sourceItem.SubItems.Count.ToString());
             }
         }
 
