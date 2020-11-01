@@ -16,10 +16,15 @@ namespace PortKit.MVVM
         private readonly Action<TParameter> _action;
         private readonly Func<TParameter, bool> _canExecute;
 
-        public RelayCommand(Action<TParameter> action, Func<TParameter, bool> canExecute = null)
+        public RelayCommand(Action<TParameter> action, Func<TParameter, bool> canExecute)
         {
             _action = action ?? throw new ArgumentNullException(nameof(action));
             _canExecute = canExecute;
+        }
+
+        public RelayCommand(Action<TParameter> action)
+            : this(action, _ => true)
+        {
         }
 
         public void Dispose()

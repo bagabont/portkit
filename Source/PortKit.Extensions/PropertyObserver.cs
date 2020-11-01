@@ -139,8 +139,10 @@ namespace PortKit.Extensions
             {
                 if (value is INotifyCollectionChanged ncc)
                 {
-                    void OnValueChanged(object s, NotifyCollectionChangedEventArgs e) =>
+                    void OnValueChanged(object s, NotifyCollectionChangedEventArgs e)
+                    {
                         _callback?.Invoke();
+                    }
 
                     ncc.CollectionChanged -= OnValueChanged;
                     ncc.CollectionChanged += OnValueChanged;
