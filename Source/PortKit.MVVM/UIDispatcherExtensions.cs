@@ -6,12 +6,12 @@ namespace PortKit.MVVM
     public static class UIDispatcherExtensions
     {
         /// <summary>
-        /// 
+        /// Dispatches an action asynchronously.
         /// </summary>
-        /// <param name="dispatcher"></param>
-        /// <param name="action"></param>
-        /// <typeparam name="T"></typeparam>
-        /// <returns></returns>
+        /// <param name="dispatcher">Dispatcher which invokes the action.</param>
+        /// <param name="action">Action to be invoked.</param>
+        /// <typeparam name="T">Returned value type</typeparam>
+        /// <returns>Returned <see cref="Task{T}"/> result of the action.</returns>
         public static async Task<T> InvokeAsync<T>(this IUIDispatcher dispatcher, Func<Task<T>> action)
         {
             var tcs = new TaskCompletionSource<T>();
@@ -29,11 +29,11 @@ namespace PortKit.MVVM
         }
 
         /// <summary>
-        /// 
+        /// Dispatches an action asynchronously.
         /// </summary>
-        /// <param name="dispatcher"></param>
-        /// <param name="action"></param>
-        /// <returns></returns>
+        /// <param name="dispatcher">Dispatcher which invokes the action.</param>
+        /// <param name="action">Action to be invoked.</param>
+        /// <returns>Returned <see cref="Task"/> of the action.</returns>
         public static async Task InvokeAsync(this IUIDispatcher dispatcher, Func<Task> action)
         {
             var tcs = new TaskCompletionSource<bool>();
