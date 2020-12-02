@@ -59,6 +59,10 @@ namespace PortKit.Bindings
         public Binding<TSource, TTarget> OnSourceChanged(Action<TSource> onSourceChanged)
         {
             _sourceChangedCallback = onSourceChanged;
+            if (_sourceObserver.TryGetValue(out var value))
+            {
+                _sourceChangedCallback?.Invoke((TSource)value);
+            }
 
             return this;
         }
@@ -66,6 +70,10 @@ namespace PortKit.Bindings
         public Binding<TSource, TTarget> OnTargetChanged(Action<TTarget> onTargetChanged)
         {
             _targetChangedCallback = onTargetChanged;
+            if (_targetObserver.TryGetValue(out var value))
+            {
+                _targetChangedCallback?.Invoke((TTarget)value);
+            }
 
             return this;
         }

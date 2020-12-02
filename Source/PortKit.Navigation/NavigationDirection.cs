@@ -1,8 +1,7 @@
 namespace PortKit.Navigation
 {
-    public enum Mode
+    public enum NavigationDirection
     {
-        Unknown,
         Forward,
         Backward
     }

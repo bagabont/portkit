@@ -1,11 +1,7 @@
-using System;
-
 namespace PortKit.Navigation
 {
-    public interface IView
+    public interface IDataView
     {
-        event EventHandler Dismissed;
-
         object DataContext { get; set; }
     }
 }

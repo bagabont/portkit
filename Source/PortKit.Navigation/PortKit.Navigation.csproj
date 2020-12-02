@@ -6,4 +6,8 @@
         <RootNamespace>PortKit.Navigation</RootNamespace>
     </PropertyGroup>
 
+    <ItemGroup>
+      <ProjectReference Include="..\PortKit.MVVM\PortKit.MVVM.csproj" />
+    </ItemGroup>
+
 </Project>

@@ -4,7 +4,7 @@ using System.ComponentModel;
 using System.Linq.Expressions;
 using System.Windows.Input;
 
-namespace PortKit.MVVM
+namespace PortKit.MVVM.Commands
 {
     /// <summary>
     /// </summary>

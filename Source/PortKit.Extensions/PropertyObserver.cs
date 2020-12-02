@@ -84,32 +84,40 @@ namespace PortKit.Extensions
             }
 
             var instanceType = _instance.GetType();
+            var found = false;
 
-            switch (_member.MemberType)
+            while (instanceType != null && !found)
             {
-                case MemberTypes.Field:
-                    var field = instanceType.GetField(_member.Name, MemberAccessFlags);
-                    if (field == null)
-                    {
-                        return false;
-                    }
+                switch (_member.MemberType)
+                {
+                    case MemberTypes.Field:
+                        var field = instanceType.GetField(_member.Name, MemberAccessFlags);
+                        found = field != null;
+                        if (found)
+                        {
+                            value = field.GetValue(_instance);
+                        }
 
-                    value = field.GetValue(_instance);
-                    return true;
+                        break;
 
-                case MemberTypes.Property:
-                    var property = instanceType.GetProperty(_member.Name, MemberAccessFlags);
-                    if (property == null)
-                    {
-                        return false;
-                    }
+                    case MemberTypes.Property:
+                        var property = instanceType.GetProperty(_member.Name, MemberAccessFlags);
+                        found = property != null;
+                        if (found)
+                        {
+                            value = property.GetValue(_instance);
+                        }
 
-                    value = property.GetValue(_instance);
-                    return true;
+                        break;
 
-                default:
-                    throw new ArgumentOutOfRangeException(nameof(_member));
+                    default:
+                        throw new ArgumentOutOfRangeException(nameof(_member));
+                }
+
+                instanceType = instanceType.BaseType;
             }
+
+            return found;
         }
 
         public void SetValue(object value)

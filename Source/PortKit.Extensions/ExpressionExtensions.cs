@@ -8,8 +8,7 @@ namespace PortKit.Extensions
 {
     public static class ExpressionExtensions
     {
-        private const BindingFlags MemberAccessFlags = BindingFlags.Default |
-                                                       BindingFlags.Instance |
+        private const BindingFlags MemberAccessFlags = BindingFlags.Instance |
                                                        BindingFlags.NonPublic |
                                                        BindingFlags.Public;
 
@@ -67,12 +66,17 @@ namespace PortKit.Extensions
             {
                 var member = visitor.Path.Peek();
 
-                found = member.MemberType switch
+                while (instanceType != null && !found)
                 {
-                    MemberTypes.Field => instanceType.GetField(member.Name, MemberAccessFlags) != null,
-                    MemberTypes.Property => instanceType.GetProperty(member.Name, MemberAccessFlags) != null,
-                    _ => throw new ArgumentOutOfRangeException()
-                };
+                    found = member.MemberType switch
+                    {
+                        MemberTypes.Field => instanceType.GetField(member.Name, MemberAccessFlags) != null,
+                        MemberTypes.Property => instanceType.GetProperty(member.Name, MemberAccessFlags) != null,
+                        _ => throw new ArgumentOutOfRangeException()
+                    };
+
+                    instanceType = instanceType.BaseType;
+                }
 
                 if (!found)
                 {

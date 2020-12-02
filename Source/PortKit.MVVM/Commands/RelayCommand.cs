@@ -1,6 +1,6 @@
 using System;
 
-namespace PortKit.MVVM
+namespace PortKit.MVVM.Commands
 {
     /// <inheritdoc cref="IRelayCommand"/>>
     public class RelayCommand : RelayCommand<object>
