@@ -23,10 +23,9 @@ namespace PortKit.Bindings.UnitTests
             const string expected = "test";
 
             _sourceItem.Name = expected;
-            var binding = this.Set(
+            var binding = this.SetBinding(
                 () => _sourceItem.Name,
-                () => _targetItem.Name,
-                BindingMode.OneWay
+                () => _targetItem.Name
             );
 
             using (binding)
@@ -38,10 +37,9 @@ namespace PortKit.Bindings.UnitTests
         [Test]
         public void OneWayBinding_SourcePropertyChanged_UpdatesTargetProperty()
         {
-            var binding = this.Set(
+            var binding = this.SetBinding(
                 () => _sourceItem.Name,
-                () => _targetItem.Name,
-                BindingMode.OneWay
+                () => _targetItem.Name
             );
 
             using (binding)
@@ -56,10 +54,9 @@ namespace PortKit.Bindings.UnitTests
         [Test]
         public void OneWayBinding_TargetPropertyUpdated_DoesNotUpdateSource()
         {
-            var binding = this.Set(
+            var binding = this.SetBinding(
                 () => _sourceItem.Name,
-                () => _targetItem.Name,
-                BindingMode.OneWay
+                () => _targetItem.Name
             );
 
             using (binding)
@@ -77,10 +74,9 @@ namespace PortKit.Bindings.UnitTests
         public void OneWayBinding_FallbackWithDefaultConverter_TargetPropertySetToFallback()
         {
             const int expected = 100;
-            var binding = this.Set(
+            var binding = this.SetBinding(
                     () => _sourceItem.Name.Length,
-                    () => _targetItem.Name,
-                    BindingMode.OneWay)
+                    () => _targetItem.Name)
                 .WithFallback(expected);
 
             using (binding)

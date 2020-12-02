@@ -2,7 +2,7 @@ using System.Collections.ObjectModel;
 using FluentAssertions;
 using NUnit.Framework;
 using PortKit.Bindings.UnitTests.Data;
-using PortKit.MVVM;
+using PortKit.MVVM.Commands;
 
 namespace PortKit.Bindings.UnitTests
 {
@@ -25,10 +25,9 @@ namespace PortKit.Bindings.UnitTests
             const string expected = "test";
 
             _sourceItem.Name = expected;
-            var binding = this.Set(
+            var binding = this.SetBinding(
                 () => _sourceItem.Name,
-                () => _targetItem.Name,
-                BindingMode.OneWay
+                () => _targetItem.Name
             );
 
             using (binding)
@@ -40,10 +39,9 @@ namespace PortKit.Bindings.UnitTests
         [Test]
         public void OneWayBinding_SourcePropertyChanged_UpdatesTargetProperty()
         {
-            var binding = this.Set(
+            var binding = this.SetBinding(
                 () => _sourceItem.Name,
-                () => _targetItem.Name,
-                BindingMode.OneWay
+                () => _targetItem.Name
             );
 
             using (binding)
@@ -59,7 +57,7 @@ namespace PortKit.Bindings.UnitTests
         public void OneWayBinding_DifferentPropertyTypesWithConverter_UpdatesTargetProperty()
         {
             const string expectedDescription = "Items count=1";
-            var binding = this.Set(
+            var binding = this.SetBinding(
                 () => _sourceItem.SubItems,
                 () => _targetItem.Description,
                 BindingMode.OneWay,
@@ -78,10 +76,9 @@ namespace PortKit.Bindings.UnitTests
         [Test]
         public void OneWayBinding_TargetPropertyUpdated_DoesNotUpdateSource()
         {
-            var binding = this.Set(
+            var binding = this.SetBinding(
                 () => _sourceItem.Name,
-                () => _targetItem.Name,
-                BindingMode.OneWay
+                () => _targetItem.Name
             );
 
             using (binding)
@@ -104,10 +101,9 @@ namespace PortKit.Bindings.UnitTests
                 _sourceItem.SubItems.Add(item);
             });
 
-            var binding = this.Set(
+            var binding = this.SetBinding(
                 () => _sourceItem.SubItems.Count,
-                () => _targetItem.Description,
-                BindingMode.OneWay
+                () => _targetItem.Description
             );
 
             _sourceItem.Command.Execute(new ItemViewModel());
@@ -122,10 +118,9 @@ namespace PortKit.Bindings.UnitTests
         public void OneWayBinding_FallbackWithDefaultConverter_TargetPropertySetToFallback()
         {
             const int expected = 100;
-            var binding = this.Set(
+            var binding = this.SetBinding(
                     () => _sourceItem.Name.Length,
-                    () => _targetItem.Name,
-                    BindingMode.OneWay)
+                    () => _targetItem.Name)
                 .WithFallback(expected);
 
             using (binding)

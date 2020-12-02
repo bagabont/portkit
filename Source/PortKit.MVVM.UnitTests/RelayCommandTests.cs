@@ -3,6 +3,7 @@ using System.Collections.ObjectModel;
 using System.Windows.Input;
 using FluentAssertions;
 using NUnit.Framework;
+using PortKit.MVVM.Commands;
 
 namespace PortKit.MVVM.UnitTests
 {

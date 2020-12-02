@@ -5,6 +5,7 @@ using NUnit.Framework;
 using PortKit.Bindings.Extensions;
 using PortKit.Bindings.UnitTests.Data;
 using PortKit.MVVM;
+using PortKit.MVVM.Commands;
 
 namespace PortKit.Bindings.UnitTests
 {

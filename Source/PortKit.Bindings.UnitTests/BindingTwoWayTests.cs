@@ -23,7 +23,7 @@ namespace PortKit.Bindings.UnitTests
             const string expected = "test";
 
             _sourceItem.Name = expected;
-            var binding = this.Set(
+            var binding = this.SetBinding(
                 () => _sourceItem.Name,
                 () => _targetItem.Name,
                 BindingMode.TwoWay
@@ -40,7 +40,7 @@ namespace PortKit.Bindings.UnitTests
         {
             const string expected = "testName";
 
-            var binding = this.Set(
+            var binding = this.SetBinding(
                 () => _sourceItem.Name,
                 () => _targetItem.Name,
                 BindingMode.TwoWay
