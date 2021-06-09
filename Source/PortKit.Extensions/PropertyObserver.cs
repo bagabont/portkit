@@ -21,6 +21,7 @@ namespace PortKit.Extensions
         private readonly Action _callback;
         private object _instance;
         private bool _subscribe;
+        private DisposableAction _collectionChangedSubscription;
 
         public PropertyObserver Next { get; set; }
 
@@ -152,8 +153,11 @@ namespace PortKit.Extensions
                         _callback?.Invoke();
                     }
 
-                    ncc.CollectionChanged -= OnValueChanged;
+                   _collectionChangedSubscription?.Dispose();
                     ncc.CollectionChanged += OnValueChanged;
+                    _collectionChangedSubscription = new DisposableAction(
+                        () => ncc.CollectionChanged -= OnValueChanged
+                    );
                 }
             }
 
@@ -185,6 +189,7 @@ namespace PortKit.Extensions
             {
                 npc.PropertyChanged -= OnPropertyChanged;
             }
+            _collectionChangedSubscription?.Dispose();
         }
     }
 }
